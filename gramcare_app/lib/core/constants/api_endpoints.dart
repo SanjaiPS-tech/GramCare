@@ -21,42 +21,42 @@ class ApiEndpoints {
   // Users
   static const String usersBase = '/users';
   static const String userProfile = '$usersBase/me';
-  static String userById(String id) => '$usersBase/$id';
+  static const String userByIdTemplate = '$usersBase/{id}';
 
   // Medicines
   static const String medicinesBase = '/medicines';
-  static String medicineById(String id) => '$medicinesBase/$id';
-  static String medicineLogs(String id) => '$medicinesBase/$id/logs';
+  static const String medicineByIdTemplate = '$medicinesBase/{id}';
+  static const String medicineLogsTemplate = '$medicinesBase/{id}/logs';
   static const String medicineAdherence = '$medicinesBase/adherence';
 
   // Prescriptions
   static const String prescriptionsBase = '/prescriptions';
   static const String prescriptionUpload = '$prescriptionsBase/upload';
-  static String prescriptionById(String id) => '$prescriptionsBase/$id';
-  static String prescriptionExplain(String id) =>
-      '$prescriptionsBase/$id/explain';
+  static const String prescriptionByIdTemplate = '$prescriptionsBase/{id}';
+  static const String prescriptionExplainTemplate =
+      '$prescriptionsBase/{id}/explain';
 
   // Health Records
   static const String healthRecordsBase = '/health-records';
-  static String healthRecordById(String id) => '$healthRecordsBase/$id';
+  static const String healthRecordByIdTemplate = '$healthRecordsBase/{id}';
   static const String healthRecordsExport = '$healthRecordsBase/export';
 
   // Emergency
   static const String emergencyBase = '/emergency';
   static const String emergencyAlert = '$emergencyBase/alert';
   static const String emergencyContacts = '$emergencyBase/contacts';
-  static String emergencyContactById(String id) =>
-      '$emergencyContacts/$id';
+  static const String emergencyContactByIdTemplate =
+      '$emergencyContacts/{id}';
 
   // Appointments
   static const String appointmentsBase = '/appointments';
-  static String appointmentById(String id) => '$appointmentsBase/$id';
+  static const String appointmentByIdTemplate = '$appointmentsBase/{id}';
   static const String doctors = '/doctors';
 
   // Family
   static const String familyBase = '/family';
-  static String familyDashboard(String elderlyId) =>
-      '$familyBase/dashboard/$elderlyId';
+  static const String familyDashboardTemplate =
+      '$familyBase/dashboard/{elderlyId}';
   static const String familyLink = '$familyBase/link';
   static const String familyLinkedUsers = '$familyBase/linked-users';
 
@@ -69,13 +69,13 @@ class ApiEndpoints {
 
   // Risk Prediction
   static const String riskBase = '/risk';
-  static String riskByUser(String userId) => '$riskBase/$userId';
-  static String riskPredict(String userId) => '$riskBase/$userId/predict';
+  static const String riskByUserTemplate = '$riskBase/{userId}';
+  static const String riskPredictTemplate = '$riskBase/{userId}/predict';
 
   // Notifications
   static const String notificationsBase = '/notifications';
-  static String notificationRead(String id) =>
-      '$notificationsBase/$id/read';
+  static const String notificationReadTemplate =
+      '$notificationsBase/{id}/read';
 
   // Voice Call
   static const String voiceBase = '/voice';

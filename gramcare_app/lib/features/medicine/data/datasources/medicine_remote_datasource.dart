@@ -15,16 +15,16 @@ abstract class MedicineRemoteDataSource {
   @POST(ApiEndpoints.medicinesBase)
   Future<MedicineModel> addMedicine(@Body() MedicineModel medicine);
 
-  @PUT(ApiEndpoints.medicineById('{id}'))
+  @PUT(ApiEndpoints.medicineByIdTemplate)
   Future<void> updateMedicine(@Path('id') String id, @Body() MedicineModel medicine);
 
-  @DELETE(ApiEndpoints.medicineById('{id}'))
+  @DELETE(ApiEndpoints.medicineByIdTemplate)
   Future<void> deleteMedicine(@Path('id') String id);
 
-  @GET(ApiEndpoints.medicineLogs('{id}'))
+  @GET(ApiEndpoints.medicineLogsTemplate)
   Future<List<MedicineLogModel>> getMedicineLogs(@Path('id') String id);
 
-  @POST(ApiEndpoints.medicineLogs('{id}'))
+  @POST(ApiEndpoints.medicineLogsTemplate)
   Future<void> logMedicineAction(@Path('id') String id, @Body() MedicineLogModel log);
 
   @GET(ApiEndpoints.medicineAdherence)
