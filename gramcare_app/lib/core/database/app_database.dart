@@ -258,6 +258,21 @@ class AppDatabase extends _$AppDatabase {
   Future<void> clearProcessedSyncItems() =>
       (delete(syncQueue)..where((s) => s.status.equals('COMPLETED'))).go();
 
+  Future<List<MedicineLog>> getLogsByUserIdAndDateRange(
+    String userId,
+    DateTime start,
+    DateTime end,
+  ) =>
+      (select(medicineLogs)
+            ..where((l) =>
+                l.userId.equals(userId) &
+                l.logDate.isBiggerOrEqualValue(start) &
+                l.logDate.isSmallerOrEqualValue(end))
+            ..orderBy([
+              (l) => OrderingTerm.asc(l.logDate),
+            ]))
+          .get();
+
   // ===================== ADHERENCE CALCULATIONS =====================
 
   /// Calculate adherence percentage for a user over a date range.

@@ -113,7 +113,7 @@ class _MedicineListItem extends StatelessWidget {
           ),
           if (medicine.instructions != null)
             Padding(
-              padding: const EdgeInsets.top(4),
+              padding: const EdgeInsets.only(top: 4),
               child: Text(
                 'Instructions: ${medicine.instructions}',
                 style: context.textTheme.bodyMedium?.copyWith(fontStyle: FontStyle.italic),

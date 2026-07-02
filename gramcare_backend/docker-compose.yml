@@ -30,6 +30,7 @@ services:
       - DB_USER=postgres
       - DB_PASS=postgres
       - JWT_SECRET=404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      - NVIDIA_API_KEY=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
     depends_on:
       postgres:
         condition: service_healthy

@@ -8,6 +8,7 @@ import '../../../../core/utils/validators.dart';
 import '../../../../shared/widgets/elderly_button.dart';
 import '../../../../shared/widgets/elderly_text_field.dart';
 import '../providers/auth_provider.dart';
+import '../providers/auth_state.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -39,9 +40,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authNotifierProvider);
+    final authState = ref.watch(authNotifierProvider) as AuthState;
 
-    ref.listen(authNotifierProvider, (previous, next) {
+    ref.listen<AuthState>(authNotifierProvider, (previous, next) {
       next.maybeWhen(
         authenticated: () => context.go('/'),
         error: (message) => context.showError(message),

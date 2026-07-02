@@ -27,9 +27,12 @@ public class HealthWorkerService {
 
     @Transactional
     public HealthWorkerVisit logVisit(UUID workerId, UUID patientId, HealthWorkerVisit visit) {
+        User worker = userRepository.findById(workerId)
+                .orElseThrow(() -> new RuntimeException("Worker not found"));
         User patient = userRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
-        visit.setWorkerId(workerId);
+        
+        visit.setWorker(worker);
         visit.setPatient(patient);
         visit.setVisitedAt(LocalDateTime.now());
         return visitRepository.save(visit);
@@ -37,9 +40,12 @@ public class HealthWorkerService {
 
     @Transactional
     public Survey submitSurvey(UUID workerId, UUID patientId, Survey survey) {
+        User worker = userRepository.findById(workerId)
+                .orElseThrow(() -> new RuntimeException("Worker not found"));
         User patient = userRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
-        survey.setWorkerId(workerId);
+        
+        survey.setWorker(worker);
         survey.setPatient(patient);
         survey.setCompletedAt(LocalDateTime.now());
         return surveyRepository.save(survey);

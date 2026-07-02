@@ -37,3 +37,9 @@ management:
     web:
       exposure:
         include: health,info,metrics
+
+nvidia:
+  api:
+    key: ${NVIDIA_API_KEY:}
+    url: https://integrate.api.nvidia.com/v1/chat/completions
+    model: meta/llama-3.1-70b-instruct

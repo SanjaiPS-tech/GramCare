@@ -41,14 +41,14 @@ GramCare is a comprehensive healthcare platform designed to support elderly user
 ### Backend
 - `DB_HOST`: Database host.
 - `JWT_SECRET`: Secret key for JWT tokens.
-- `GEMINI_API_KEY`: Google Gemini AI API key.
+- `NVIDIA_API_KEY`: NVIDIA API key for AI analysis.
 
 ### Frontend
 - `API_BASE_URL`: Base URL for the backend API.
-- `GEMINI_API_KEY`: API key for local AI features.
+- `NVIDIA_API_KEY`: NVIDIA API key for local AI features.
 
 ## Tech Stack
 
 - **Mobile**: Flutter, Riverpod, Drift (SQLite3), GoRouter, Dio, ML Kit.
 - **Backend**: Spring Boot, Spring Security (JWT), Hibernate, Flyway, PostgreSQL.
-- **AI**: Google Gemini Pro, ML Kit OCR.
+- **AI**: NVIDIA NIM (Llama 3.1), ML Kit OCR.

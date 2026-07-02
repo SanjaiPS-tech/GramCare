@@ -26,7 +26,7 @@ class GramCareApp extends ConsumerWidget {
       
       // Localization
       locale: locale,
-      localizationsDelegates: const [
+      localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

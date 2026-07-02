@@ -9,6 +9,7 @@ import '../../../../shared/widgets/elderly_button.dart';
 import '../../../../shared/widgets/elderly_text_field.dart';
 import '../../data/models/auth_models.dart';
 import '../providers/auth_provider.dart';
+import '../providers/auth_state.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -47,9 +48,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authNotifierProvider);
-
-    ref.listen(authNotifierProvider, (previous, next) {
+    final authState = ref.watch(authNotifierProvider) as AuthState;
+    
+    ref.listen<AuthState>(authNotifierProvider, (previous, next) {
       next.maybeWhen(
         unauthenticated: () {
           context.showSuccess('Registration successful! Please login.');

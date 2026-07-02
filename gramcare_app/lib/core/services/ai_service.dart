@@ -1,14 +1,13 @@
-import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AiService {
-  final GenerativeModel _model;
+  final Dio _dio;
+  final String _apiKey;
+  static const String _baseUrl = 'https://integrate.api.nvidia.com/v1/chat/completions';
+  static const String _model = 'meta/llama-3.1-405b-instruct';
 
-  AiService(String apiKey)
-      : _model = GenerativeModel(
-          model: 'gemini-1.5-flash',
-          apiKey: apiKey,
-        );
+  AiService(this._apiKey) : _dio = Dio();
 
   Future<String> explainPrescription(String ocrText, String language) async {
     final prompt = '''
@@ -25,14 +24,38 @@ class AiService {
     Keep the tone caring and easy to understand. Avoid medical jargon.
     ''';
 
-    final content = [Content.text(prompt)];
-    final response = await _model.generateContent(content);
-    return response.text ?? "I couldn't analyze the prescription. Please consult your doctor.";
+    try {
+      final response = await _dio.post(
+        _baseUrl,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $_apiKey',
+            'Content-Type': 'application/json',
+          },
+        ),
+        data: {
+          "model": _model,
+          "messages": [
+            {"role": "user", "content": prompt}
+          ],
+          "temperature": 0.2,
+          "top_p": 0.7,
+          "max_tokens": 1024,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return response.data['choices'][0]['message']['content'];
+      } else {
+        return "Error from AI service: ${response.statusCode}";
+      }
+    } catch (e) {
+      return "I couldn't analyze the prescription today. Please consult your doctor directly.";
+    }
   }
 }
 
 final aiServiceProvider = Provider<AiService>((ref) {
-  // In a real app, get the API key from a secure config
-  const apiKey = String.fromEnvironment('GEMINI_API_KEY');
+  const apiKey = String.fromEnvironment('NVIDIA_API_KEY');
   return AiService(apiKey);
 });

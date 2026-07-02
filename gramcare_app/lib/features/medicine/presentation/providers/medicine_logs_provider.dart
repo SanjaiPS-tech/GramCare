@@ -1,4 +1,6 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
+import 'package:state_notifier/state_notifier.dart';
+import '../../../../core/networking/api_result.dart';
 import '../../domain/entities/medicine_entity.dart';
 import '../../domain/usecases/medicine_usecases.dart';
 import 'medicine_provider.dart';

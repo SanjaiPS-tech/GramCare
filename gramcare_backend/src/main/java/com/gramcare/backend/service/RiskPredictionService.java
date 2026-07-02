@@ -17,6 +17,7 @@ import java.util.UUID;
 public class RiskPredictionService {
     private final RiskPredictionRepository riskPredictionRepository;
     private final UserRepository userRepository;
+    private final NvidiaAiService nvidiaAiService;
 
     public Optional<RiskPrediction> getLatestRisk(UUID userId) {
         User user = userRepository.findById(userId)
@@ -29,17 +30,23 @@ public class RiskPredictionService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         
-        // In a real app, logic would gather medicine logs, health records, 
-        // and call Gemini AI to produce these scores.
+        String prompt = "Analyze the health risks for a patient with the following profile: " + user.getName() + 
+            ". Consider their age and potential rural health challenges. " +
+            "Provide a health score (0-100), risk levels for Diabetes and Hypertension (LOW, MEDIUM, HIGH), " +
+            "and concise recommendations for an elderly person.";
+            
+        String aiResponse = nvidiaAiService.generateResponse(prompt);
+        
+        // Simple mock extraction logic for demo purposes
         RiskPrediction prediction = RiskPrediction.builder()
                 .user(user)
-                .healthScore(75) // Mock score
-                .riskLevel("MEDIUM")
+                .healthScore(82) 
+                .riskLevel("LOW")
                 .diabetesRisk("LOW")
                 .hypertensionRisk("MEDIUM")
                 .complianceRisk("LOW")
                 .hospitalizationRisk("LOW")
-                .recommendations("Keep maintaining your current routine. Monitor salt intake.")
+                .recommendations(aiResponse)
                 .predictedAt(LocalDateTime.now())
                 .build();
         

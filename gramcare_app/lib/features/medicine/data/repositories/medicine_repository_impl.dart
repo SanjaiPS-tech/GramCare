@@ -36,9 +36,9 @@ class MedicineRepositoryImpl implements MedicineRepository {
       final userId = 'current_user_id'; // Placeholder
       final localMedicines = await _medicineDao.getMedicinesByUserId(userId);
       
-      return ApiResult.success(localMedicines.map(_dbToEntity).toList());
+      return ApiResult.success(data: localMedicines.map(_dbToEntity).toList());
     } catch (e) {
-      return ApiResult.failure(error: e);
+      return ApiResult.failure(failure: ApiFailure.unknown(error: e));
     }
   }
 
@@ -50,17 +50,17 @@ class MedicineRepositoryImpl implements MedicineRepository {
       if (await _networkInfo.isConnected) {
         final remoteResponse = await _remoteDataSource.addMedicine(model);
         await _medicineDao.insertMedicine(_modelToCompanion(remoteResponse));
-        return ApiResult.success(_modelToEntity(remoteResponse));
+        return ApiResult.success(data: _modelToEntity(remoteResponse));
       } else {
         // Save locally with PENDING status
         final companion = _entityToCompanion(medicine).copyWith(
           syncStatus: const Value('PENDING'),
         );
         await _medicineDao.insertMedicine(companion);
-        return ApiResult.success(medicine);
+        return ApiResult.success(data: medicine);
       }
     } catch (e) {
-      return ApiResult.failure(error: e);
+      return ApiResult.failure(failure: ApiFailure.unknown(error: e));
     }
   }
 
@@ -77,9 +77,9 @@ class MedicineRepositoryImpl implements MedicineRepository {
           syncStatus: const Value('PENDING'),
         ));
       }
-      return const ApiResult.success(null);
+      return const ApiResult.success(data: null);
     } catch (e) {
-      return ApiResult.failure(error: e);
+      return ApiResult.failure(failure: ApiFailure.unknown(error: e));
     }
   }
 
@@ -90,9 +90,9 @@ class MedicineRepositoryImpl implements MedicineRepository {
         await _remoteDataSource.deleteMedicine(id);
       }
       await _medicineDao.deleteMedicine(id);
-      return const ApiResult.success(null);
+      return const ApiResult.success(data: null);
     } catch (e) {
-      return ApiResult.failure(error: e);
+      return ApiResult.failure(failure: ApiFailure.unknown(error: e));
     }
   }
 
@@ -106,9 +106,9 @@ class MedicineRepositoryImpl implements MedicineRepository {
         }
       }
       final localLogs = await _medicineDao.getLogsByMedicineId(medicineId);
-      return ApiResult.success(localLogs.map(_dbLogToEntity).toList());
+      return ApiResult.success(data: localLogs.map(_dbLogToEntity).toList());
     } catch (e) {
-      return ApiResult.failure(error: e);
+      return ApiResult.failure(failure: ApiFailure.unknown(error: e));
     }
   }
 
@@ -124,9 +124,9 @@ class MedicineRepositoryImpl implements MedicineRepository {
           syncStatus: const Value('PENDING'),
         ));
       }
-      return const ApiResult.success(null);
+      return const ApiResult.success(data: null);
     } catch (e) {
-      return ApiResult.failure(error: e);
+      return ApiResult.failure(failure: ApiFailure.unknown(error: e));
     }
   }
 
@@ -135,17 +135,17 @@ class MedicineRepositoryImpl implements MedicineRepository {
     try {
       if (await _networkInfo.isConnected) {
         final stats = await _remoteDataSource.getAdherenceStats();
-        return ApiResult.success(stats);
+        return ApiResult.success(data: stats);
       } else {
         // Calculate locally from logs
         final userId = 'current_user_id';
         final now = DateTime.now();
         final start = now.subtract(const Duration(days: 30));
         final stats = await _medicineDao.db.getAdherenceBreakdown(userId, start, now);
-        return ApiResult.success(stats);
+        return ApiResult.success(data: stats);
       }
     } catch (e) {
-      return ApiResult.failure(error: e);
+      return ApiResult.failure(failure: ApiFailure.unknown(error: e));
     }
   }
 

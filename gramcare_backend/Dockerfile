@@ -1,5 +1,12 @@
-FROM openjdk:21-jdk-slim
+# Build stage
+FROM gradle:8-jdk21 AS build
+WORKDIR /home/gradle/src
+COPY --chown=gradle:gradle . .
+RUN gradle build --no-daemon -x test
+
+# Package stage
+FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
-COPY build/libs/*.jar app.jar
+COPY --from=build /home/gradle/src/build/libs/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]

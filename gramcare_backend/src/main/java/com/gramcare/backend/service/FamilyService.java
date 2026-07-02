@@ -24,14 +24,16 @@ public class FamilyService {
 
     @Transactional
     public FamilyMonitoring linkToElderly(UUID familyMemberId, UUID elderlyUserId, String relationship) {
+        User familyMember = userRepository.findById(familyMemberId)
+                .orElseThrow(() -> new RuntimeException("Family member not found"));
         User elderlyUser = userRepository.findById(elderlyUserId)
                 .orElseThrow(() -> new RuntimeException("Elderly user not found"));
         
         FamilyMonitoring link = FamilyMonitoring.builder()
-                .familyMemberId(familyMemberId)
+                .familyMember(familyMember)
                 .elderlyUser(elderlyUser)
                 .relationship(relationship)
-                .isApproved(false) // Needs approval from elderly user
+                .isApproved(false)
                 .linkedAt(LocalDateTime.now())
                 .build();
         

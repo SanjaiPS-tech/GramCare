@@ -1,7 +1,10 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
+import 'package:state_notifier/state_notifier.dart';
+import 'package:dio/dio.dart';
 import '../../../../core/database/app_database.dart';
 import '../../../../core/networking/dio_client.dart';
 import '../../../../core/networking/network_info.dart';
+import '../../../../core/networking/api_result.dart';
 import '../../data/datasources/medicine_remote_datasource.dart';
 import '../../data/repositories/medicine_repository_impl.dart';
 import '../../domain/repositories/medicine_repository.dart';
